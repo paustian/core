@@ -409,3 +409,17 @@ and so on…
 
 - Remove all calls of `adminHeader()` and `adminFooter()` from extension templates.
 - Ensure that your admin theme calls them instead at a central place where appropriate.
+- Finally, make sure you are using @Theme annotations in your function routines to ensure the correct menu is displayed along with the routine. For example:
+```
+    /**
+     * @Route("/modify")
+     * @Theme("admin")
+     * @param Request $request
+     * @return Response
+     */
+    public function modifyAction(Request $request) {
+        $em = $this->getDoctrine()->getManager();
+        $people = $em->getRepository("Paustian\PMCIModule\Entity\PersonEntity")->findAll();
+        return $this->render('@PaustianPMCIModule/Person/pmci_person_modifyperson.html.twig', ['people' => $people]);
+    }
+``` 
